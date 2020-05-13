@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'amnesie/runner'
+
+runner = Amnesie::Runner.new(ARGV)
+runner.run
