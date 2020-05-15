@@ -1,3 +1,4 @@
+require 'tty-which'
 require_relative 'helpers'
 
 module Amnesie
@@ -9,14 +10,18 @@ module Amnesie
     end
 
     def kill
+      return if not TTY::Which.exist?('dhcpcd')
       @pkill.run("dhcpcd")
       puts "Killed dhcpcd"
     end
 
     def restart
+      return if not TTY::Which.exist?('systemctl')
       @procs.each do |p|
-        @systemctl.run("restart #{p}")
-        puts "Restarted #{p}"
+        if TTY::Which.exist?(p)
+          @systemctl.run("restart #{p}")
+          puts "Restarted #{p}"
+        end
       end
     end
   end
