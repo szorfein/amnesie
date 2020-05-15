@@ -16,7 +16,7 @@ module Amnesie
           @network = Amnesie::Network.new(@options.netcard)
         end
         puts @network.card
-        process = Amnesie::Process.new
+        process = Amnesie::Process.new(@network.card)
         card = Amnesie::MAC.new(@network.card)
 
         process.kill

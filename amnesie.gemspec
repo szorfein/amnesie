@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "amnesie"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
   s.summary = "A tool to make your computer amnesic"
   s.description = <<-EOF 
     A tool to make your computer amnesic"
