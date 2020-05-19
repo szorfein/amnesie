@@ -31,7 +31,7 @@ module Amnesie
     end
 
     def kill_dhclient
-      return if not TTY::Which.exist?('dhclient', paths: ['/bin, /sbin'])
+      return if not TTY::Which.exist?('dhclient', paths: ['/sbin'])
       `pgrep -x dhclient`
       @pkill.run("dhclient") if $?.success?
       @rm.run("/run/dhclient.#{@card}.pid") if File.exist? "/run/dhclient.#{@card}.pid"
@@ -51,7 +51,7 @@ module Amnesie
     end
 
     def restart_dhclient
-      return if not TTY::Which.exist?('dhclient', paths: ['/bin, /sbin'])
+      return if not TTY::Which.exist?('dhclient', paths: ['/sbin'])
       dhclient = Helpers::Exec.new("dhclient")
       # command tested on debian, not try on another system yet...
       dhclient.run("-4 -v -i -pf /run/dhclient.#{@card}.pid -lf /var/lib/dhcp/dhclient.#{@card}.leases -I -df /var/lib/dhcp/dhclient6.#{@card}.leases #{@card}")

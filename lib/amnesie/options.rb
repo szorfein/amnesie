@@ -2,7 +2,7 @@ require 'optparse'
 
 module Amnesie
   class Options
-    attr_reader :mac, :netcard
+    attr_reader :mac, :netcard, :persist
 
     def initialize(argv)
       parse(argv)
@@ -17,6 +17,10 @@ module Amnesie
 
         opts.on("-n", "--net-card NAME", "The name of the card to use") do |net|
           @netcard = net
+        end
+
+        opts.on("-p", "--persist", "Enable systemd service") do |net|
+          @persist = true
         end
 
         opts.on("-h", "--help", "Show this message") do

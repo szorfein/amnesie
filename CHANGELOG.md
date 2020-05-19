@@ -1,3 +1,8 @@
+## 0.0.5, release 2020-05-19
+* Create a amnesie-mac@.service (work only if the gem is install system-wide)
+* Add -p|--persist
+* Replace Makefile by a Rakefile
+
 ## 0.0.4, release 2020-05-16
 * Debian10 need to reload ifup@card-name too
 * Correct path where search dhclient (/bin,/sbin)
