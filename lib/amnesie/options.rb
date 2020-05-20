@@ -2,7 +2,7 @@ require 'optparse'
 
 module Amnesie
   class Options
-    attr_reader :mac, :netcard, :persist
+    attr_reader :init, :mac, :netcard, :persist
 
     def initialize(argv)
       parse(argv)
@@ -10,6 +10,10 @@ module Amnesie
 
     def parse(argv)
       OptionParser.new do |opts|
+
+        opts.on("-i", "--init", "Used with init process (systemd, etc...)") do
+          @init = true
+        end
 
         opts.on("-m", "--mac", "What is my MAC address?") do
           @mac = true

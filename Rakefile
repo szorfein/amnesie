@@ -12,7 +12,7 @@ namespace :gem do
   task :build do
     Dir["amnesie*.gem"].each {|f| File.unlink(f) }
     system("gem build amnesie.gemspec")
-    system("gem install amnesie-0.0.5.gem -P MediumSecurity")
+    system("gem install amnesie-0.0.6.gem -P MediumSecurity")
   end
 end
 

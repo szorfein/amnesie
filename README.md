@@ -10,7 +10,7 @@ Inspiration come from a post found on [Qubes-OS](https://www.qubes-os.org/doc/an
 ## Install
 Amnesie is cryptographically signed, so add my public key (if you haven’t already) as a trusted certificate.
 
-    $ gem cert --add <(curl -Ls https://raw.githubusercontent.com/szorfein/spior/master/certs/szorfein.pem)
+    $ gem cert --add <(curl -Ls https://raw.githubusercontent.com/szorfein/amnesie/master/certs/szorfein.pem)
 
 And install the gem
 
@@ -28,10 +28,14 @@ To change the MAC address for eth0:
 
     $ amnesie -n eth0 -m
 
+Create or Disable all systemd services for a network card:
+
+    $ amnesie -p -n wlp2s0
+
 ## Left Over
 
 ### Issues
-For any questions, comments, feedback or issues, submit a [new issue](https://github.com/szorfein/spior/issues/new).
+For any questions, comments, feedback or issues, submit a [new issue](https://github.com/szorfein/amnesie/issues/new).
 
 ### links
 + https://rubyreferences.github.io/rubyref

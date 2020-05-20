@@ -21,12 +21,12 @@ module Amnesie
         process = Amnesie::Process.new(@network.card)
         card = Amnesie::MAC.new(@network.card)
 
-        process.kill
+        process.kill unless @options.init
         card.save_origin
         card.rand
         card.apply
         puts card.to_s
-        process.restart
+        process.restart unless @options.init
       end
       if @options.persist then
         if not @network

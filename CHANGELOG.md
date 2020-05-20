@@ -1,3 +1,9 @@
+## 0.0.6, release 2020-05-20
+* Init a doc with RDoc.
+* Add -i|--init to start init process properly.
+* Add dhcpcd to the mac@.service, dhclient doesn't seem necessary.
+* Correct the mac@.service.
+
 ## 0.0.5, release 2020-05-19
 * Create a amnesie-mac@.service (work only if the gem is install system-wide)
 * Add -p|--persist

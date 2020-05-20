@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'tempfile'
+require 'tty-which'
 require_relative 'helpers'
 
 module Amnesie
@@ -21,18 +22,22 @@ module Amnesie
     end
 
     def mac_service
-      amnesie_path=Dir.pwd + "/" + $0
+      dhcp=''
+      if TTY::Which.exist?('dhcpcd')
+        dhcp='dhcpcd.service'
+      end
       @string=<<EOF
 [Unit]
 Description=MAC Change %I
 Wants=network-pre.target
-Before=network-pre.target
+Before=network-pre.target #{dhcp}
 BindsTo=sys-subsystem-net-devices-%i.device
 After=sys-subsystem-net-devices-%i.device
 
 [Service]
 Type=oneshot
-ExecStart=#{amnesie_path} -m -n %I
+ExecStart=/usr/bin/env bash -lc "amnesie -i -m -n %I"
+TimeoutSec=30
 
 [Install]
 WantedBy=multi-user.target
@@ -60,17 +65,13 @@ EOF
     end
 
     def menu_mac
-      print "amnesie-mac@.service for #{@card}? (enable,disable,start,stop) "
+      print "amnesie-mac@.service for #{@card}? (enable,disable) "
       answer = gets.chomp
       case answer
       when /^enable/
         mac_enable
       when /^disable/
         mac_disable
-      when /^stop/
-        mac_stop
-      when /^start/
-        mac_start
       end
     end
 
@@ -79,14 +80,9 @@ EOF
     def mac_enable
       @systemctl.run("enable amnesie-mac@#{@card}.service")
     end
+
     def mac_disable
       @systemctl.run("disable amnesie-mac@#{@card}.service")
-    end
-    def mac_stop
-      @systemctl.run("stop amnesie-mac@#{@card}.service")
-    end
-    def mac_start
-      @systemctl.run("start amnesie-mac@#{@card}.service")
     end
 
     def search_systemd_dir
