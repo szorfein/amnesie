@@ -1,3 +1,8 @@
+## 0.0.7, release 2020-05-29
+* Shortcut action for service (e/d) 
+* Correct permission on amnesie-mac@.service
+* Enhance lib/amnesie/helper
+
 ## 0.0.6, release 2020-05-20
 * Init a doc with RDoc.
 * Add -i|--init to start init process properly.

@@ -9,7 +9,6 @@ module Amnesie
     def initialize(card)
       @card = card
       @systemd_dir = search_systemd_dir
-      @mv = Helpers::Exec.new("mv")
       @systemctl = Helpers::Exec.new("systemctl")
     end
 
@@ -28,7 +27,7 @@ module Amnesie
       end
       @string=<<EOF
 [Unit]
-Description=MAC Change %I
+Description=Spoof MAC Address on %I
 Wants=network-pre.target
 Before=network-pre.target #{dhcp}
 BindsTo=sys-subsystem-net-devices-%i.device
@@ -45,14 +44,10 @@ EOF
     end
 
     def services
-      tmp = Tempfile.new("amnesie-mac@.service")
       mac_service
-      File.open(tmp.path, 'w') do |file|
-        file.puts @string
-      end
-      dest=@systemd_dir + "/amnesie-mac@.service"
-      @mv.run("#{tmp.path} #{dest}")
-      @systemctl.run("daemon-reload")
+      new_service = Helpers::NewSystemd.new(@string, "amnesie-mac@.service")
+      new_service.add
+      new_service.perm("root", "644")
     end
 
     def update_mac
@@ -65,12 +60,12 @@ EOF
     end
 
     def menu_mac
-      print "amnesie-mac@.service for #{@card}? (enable,disable) "
+      print "Action on amnesie-mac@.service for #{@card} (enable/disable) ? (e/d) "
       answer = gets.chomp
       case answer
-      when /^enable/
+      when /^e|^E/
         mac_enable
-      when /^disable/
+      when /^d|^D/
         mac_disable
       end
     end
