@@ -2,11 +2,13 @@ require 'optparse'
 
 module Amnesie
   class Options
-    attr_reader :init, :mac, :netcard, :persist
+    attr_reader :init, :mac, :net_dev, :persist
 
     def initialize(argv)
       parse(argv)
     end
+
+    private
 
     def parse(argv)
       OptionParser.new do |opts|
@@ -15,12 +17,12 @@ module Amnesie
           @init = true
         end
 
-        opts.on("-m", "--mac", "What is my MAC address?") do
+        opts.on("-m", "--mac", "Forge a random MAC address.") do
           @mac = true
         end
 
         opts.on("-n", "--net-card NAME", "The name of the card to use") do |net|
-          @netcard = net
+          @net_dev = net
         end
 
         opts.on("-p", "--persist", "Enable systemd service") do |net|

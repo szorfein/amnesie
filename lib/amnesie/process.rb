@@ -1,11 +1,10 @@
 require 'tty-which'
-require_relative 'helpers'
 
 module Amnesie
   class Process
     def initialize(card)
       @systemctl = Helpers::Exec.new("systemctl")
-      @pkill = Helpers::Exec.new("pkill")
+      @kill = Helpers::Exec.new("kill")
       @rm = Helpers::Exec.new("rm")
       @card = card
     end
@@ -25,15 +24,16 @@ module Amnesie
 
     def kill_dhcpcd
       return if not TTY::Which.exist?('dhcpcd')
-      `pgrep -x dhcpcd`
-      @pkill.run("dhcpcd") if $?.success?
+      pids=`pgrep -i dhcpcd`.chomp
+      kill_pids(pids) if $?.success?
       puts "Killed dhcpcd"
     end
 
     def kill_dhclient
       return if not TTY::Which.exist?('dhclient', paths: ['/sbin'])
-      `pgrep -x dhclient`
-      @pkill.run("dhclient") if $?.success?
+      pids=`pgrep -i dhclient`.chomp
+      kill_pids(pids) if $?.success?
+
       @rm.run("/run/dhclient.#{@card}.pid") if File.exist? "/run/dhclient.#{@card}.pid"
       @rm.run("/var/lib/dhcp/dhclient.#{@card}.leases") if File.exist? "/var/lib/dhcp/dhclient.#{@card}.leases"
       puts "Killed dhclient"
@@ -69,6 +69,13 @@ module Amnesie
         @systemctl.run("restart tor") if $?.success?
         puts "Restarted tor"
       end
+    end
+
+    def kill_pids(pids)
+      pids.lines.each { |p|
+        ps = p.gsub(/\n/, '')
+        @kill.run("-9 #{ps}")
+      }
     end
   end
 end
