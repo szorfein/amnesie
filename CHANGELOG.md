@@ -1,3 +1,8 @@
+## 0.0.8, release 2020-09-22
+* Enhance code
+* Update the class MAC, more ruby like
+* Use securerandom (>= ruby2.5)
+
 ## 0.0.7, release 2020-05-29
 * Shortcut action for service (e/d) 
 * Correct permission on amnesie-mac@.service

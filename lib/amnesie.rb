@@ -8,10 +8,8 @@ require_relative 'amnesie/helpers'
 module Amnesie
   def self.random_mac(network)
     mac = Amnesie::MAC.new(network)
-    mac.save_origin
-    mac.rand
-    mac.apply
-    puts "New MAC: " + mac.to_s
+    mac.set_addr
+    puts "New MAC for " + mac.to_s
   end
 
   def self.services(network)
@@ -28,9 +26,15 @@ module Amnesie
 
   def self.random_mac_and_kill(network)
     process = Amnesie::Process.new(network)
+    mac = Amnesie::MAC.new(network)
+
     process.kill
-    random_mac(network)
+    mac.down
+    mac.set_addr
+    puts "New MAC for " + mac.to_s
+    mac.up
     process.restart
+
   end
 
   class Main

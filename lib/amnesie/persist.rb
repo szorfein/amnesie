@@ -1,11 +1,9 @@
 require 'fileutils'
 require 'tempfile'
 require 'tty-which'
-require_relative 'helpers'
 
 module Amnesie
   class Persist
-
     def initialize(card)
       @card = card
       @systemd_dir = search_systemd_dir
