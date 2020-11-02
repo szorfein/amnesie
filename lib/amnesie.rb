@@ -13,15 +13,21 @@ module Amnesie
   end
 
   def self.services(network)
-    persist = Amnesie::Persist.new(network)
-    if ! persist.mac_exist?
-      puts "Create service..."
-      persist.services
-    elsif persist.mac_exist?
-      persist.update_mac
+    if TTY::Which.exist?('iwctl')
+      Amnesie::Persist::Iwd.new
     end
-    persist.menu_mac
-    puts persist.to_s
+    if TTY::Which.exist?('systemctl')
+      persist = Amnesie::Persist::Systemd.new(network)
+      if ! persist.mac_exist?
+        puts "Create service..."
+        persist.services
+      elsif persist.mac_exist?
+        puts "service exist"
+        persist.update_mac
+      end
+      puts "menu_mac"
+      persist.menu_mac
+    end
   end
 
   def self.random_mac_and_kill(network)

@@ -4,12 +4,12 @@ require 'tempfile'
 module Helpers
   class Exec
     def initialize(name)
-      @search_uid= Process::Sys.getuid
+      @search_uid = Process::Sys.getuid
       @name = name
     end
 
     def run(args)
-      if @search_uid == '0' then
+      if @search_uid == 0 then
         #puts "found root - uid #{@search_uid}"
         system(@name + " " + args)
       else
@@ -58,12 +58,12 @@ module Helpers
 
     private
     def search_systemd_dir
-      if Dir.exist? "/lib/systemd/system"
-        "/lib/systemd/system"
-      elsif Dir.exist? "/usr/lib/systemd/system"
+      if Dir.exist? "/usr/lib/systemd/system"
         "/usr/lib/systemd/system"
+      elsif Dir.exist? "/lib/systemd/system"
+        "/lib/systemd/system"
       else
-        raise "No directory systemd found"
+        raise "Systemd is no found..."
         exit
       end
     end
