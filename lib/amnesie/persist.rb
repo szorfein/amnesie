@@ -14,4 +14,5 @@ module Amnesie
 end
 
 require_relative 'persist/iwd'
+require_relative 'persist/wpa_supplicant'
 require_relative 'persist/systemd'

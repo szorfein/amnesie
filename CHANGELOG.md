@@ -1,3 +1,6 @@
+* Support for iwd
+* Support for wpa_supplicant
+
 ## 0.0.8, release 2020-09-22
 * Enhance code
 * Update the class MAC, more ruby like

@@ -1,5 +1,6 @@
 require 'fileutils'
 require_relative 'nito/pass'
+require_relative 'nito/cat'
 
 module Nito
   ID = `id -u`.chomp.freeze

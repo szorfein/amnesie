@@ -13,10 +13,14 @@ module Amnesie
   end
 
   def self.services(network)
+    # For wifi card
     if TTY::Which.exist?('iwctl')
       Amnesie::Persist::Iwd.new
+    elsif TTY::Which.exist?('wpa_supplicant') && network.match(/^wl/)
+      Amnesie::Persist::WpaSupplicant.new(network)
     end
-    if TTY::Which.exist?('systemctl')
+    # For ethernet card
+    if TTY::Which.exist?('systemctl') && network.match(/^en/)
       persist = Amnesie::Persist::Systemd.new(network)
       if ! persist.mac_exist?
         puts "Create service..."
