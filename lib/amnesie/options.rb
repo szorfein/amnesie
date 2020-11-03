@@ -2,7 +2,7 @@ require 'optparse'
 
 module Amnesie
   class Options
-    attr_reader :init, :mac, :net_dev, :persist
+    attr_reader :init, :mac, :net_dev, :persist, :hostname
 
     def initialize(argv)
       parse(argv)
@@ -27,6 +27,10 @@ module Amnesie
 
         opts.on("-p", "--persist", "Enable systemd service") do |net|
           @persist = true
+        end
+
+        opts.on("-H", "--hostname", "Generate a new random hostname") do |host|
+          @hostname = true
         end
 
         opts.on("-h", "--help", "Show this message") do

@@ -36,4 +36,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('interfacez', '1.0.3')
   s.add_runtime_dependency('nomansland', '0.0.2')
   s.add_runtime_dependency('tty-which', '0.4.2')
+  s.add_runtime_dependency('highline', '2.0.3')
 end

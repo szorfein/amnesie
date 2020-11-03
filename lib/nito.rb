@@ -1,9 +1,13 @@
 require 'fileutils'
 require_relative 'nito/pass'
 require_relative 'nito/cat'
+require_relative 'nito/sed'
+require_relative 'nito/hostname'
 
 module Nito
   ID = `id -u`.chomp.freeze
+  PASS = ID != 0 ? Nito::Pass.new : nil
+  PASS.freeze
 
   module Sudo
     def self.run(command, input = nil)
@@ -39,11 +43,10 @@ module Nito
     end
 
     def sudo
-      pass = Nito::Pass.new
-      Sudo.run("cp #{@src} #{@dst}", pass.secret)
+      Sudo.run("cp #{@src} #{@dst}", PASS.secret)
       perm = sprintf "%o", @perm
       puts "Applying perm #{perm}"
-      Sudo.run("chmod #{perm} #{@dst}", pass.secret)
+      Sudo.run("chmod #{perm} #{@dst}", PASS.secret)
     end
   end
 end

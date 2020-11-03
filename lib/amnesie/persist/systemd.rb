@@ -53,10 +53,10 @@ module Amnesie
       end
 
       def search_systemd_dir
-        if Dir.exist? "/usr/lib/systemd/system"
-          "/usr/lib/systemd/system"
-        elsif Dir.exist? "/lib/systemd/system"
+        if Dir.exist? "/lib/systemd/system"
           "/lib/systemd/system"
+        elsif Dir.exist? "/usr/lib/systemd/system"
+          "/usr/lib/systemd/system"
         else
           raise "No directory systemd found"
           exit

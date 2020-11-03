@@ -3,6 +3,7 @@ require_relative 'amnesie/persist'
 require_relative 'amnesie/process'
 require_relative 'amnesie/network'
 require_relative 'amnesie/mac'
+require_relative 'amnesie/host'
 require_relative 'amnesie/helpers'
 
 module Amnesie
@@ -70,6 +71,10 @@ module Amnesie
 
       if options.mac
         Amnesie.random_mac_and_kill(network.card)
+      end
+
+      if options.hostname
+        Amnesie::Host.new
       end
     end
   end
