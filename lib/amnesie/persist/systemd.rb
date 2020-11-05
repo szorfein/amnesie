@@ -64,10 +64,7 @@ module Amnesie
       end
 
       def mac_service
-        dhcp=''
-        if TTY::Which.exist?('dhcpcd')
-          dhcp='dhcpcd.service'
-        end
+        dhcp = TTY::Which.exist?("dhcpcd") ? 'dhcpcd.service' : ''
         @string=<<EOF
 [Unit]
 Description=Spoof MAC Address on %I

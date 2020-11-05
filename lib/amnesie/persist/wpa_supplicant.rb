@@ -4,14 +4,22 @@ require 'tempfile'
 module Amnesie
   module Persist
     class WpaSupplicant
-      def initialize(card)
-        @card = card
+      def initialize
+        @cards = Network.new(/wl^/, nil).search
         @tmp = Tempfile.new("main.conf")
-        apply
+        apply_cards
       end
 
-      def apply
-        file = "/etc/wpa_supplicant/wpa_supplicant-#{@card}.conf"
+      def apply_cards
+        @cards.each { |card|
+          apply(card)
+        }
+      end
+
+      private
+
+      def apply(card)
+        file = "/etc/wpa_supplicant/wpa_supplicant-#{card}.conf"
         if ! File.exist? file ||
             ! grep?(file, /gas_rand_mac/)
           puts "Add #{file}"
@@ -20,8 +28,6 @@ module Amnesie
           puts "MAC random on wpa_supplicant seem enable."
         end
       end
-
-      private
 
       def wpa_conf
         <<EOF

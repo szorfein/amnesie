@@ -21,13 +21,16 @@ module Amnesie
     puts "New MAC for " + mac.to_s
   end
 
-  def self.services(network)
-    # For wifi card
+  # For wifi card, no need systemd
+  def self.persist_wifi
     if TTY::Which.exist?('iwctl')
       Amnesie::Persist::Iwd.new
-    elsif TTY::Which.exist?('wpa_supplicant') && network.match(/^wl/)
-      Amnesie::Persist::WpaSupplicant.new(network)
+    elsif TTY::Which.exist?('wpa_supplicant')
+      Amnesie::Persist::WpaSupplicant.new
     end
+  end
+
+  def self.services(network)
     # For ethernet card
     if TTY::Which.exist?('systemctl') && network.match(/^en/)
       persist = Amnesie::Persist::Systemd.new(network)
@@ -79,6 +82,8 @@ module Amnesie
         networks.each { |net|
           Amnesie.services(net)
         }
+        Amnesie.persist_wifi
+        exit
       end
 
       if options.mac

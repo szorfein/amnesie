@@ -58,13 +58,12 @@ module Helpers
 
     private
     def search_systemd_dir
-      if Dir.exist? "/usr/lib/systemd/system"
-        "/usr/lib/systemd/system"
-      elsif Dir.exist? "/lib/systemd/system"
+      if Dir.exist? "/lib/systemd/system"
         "/lib/systemd/system"
+      elsif Dir.exist? "/usr/lib/systemd/system"
+        "/usr/lib/systemd/system"
       else
         raise "Systemd is no found..."
-        exit
       end
     end
   end
