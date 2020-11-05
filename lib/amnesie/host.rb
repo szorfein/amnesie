@@ -3,7 +3,8 @@ require 'securerandom'
 module Amnesie
   class Host
     def initialize
-      @hostname = SecureRandom.alphanumeric(10)
+      @nb = rand(8..25)
+      @hostname = SecureRandom.alphanumeric(@ng)
       Nito::Hostname.new(@hostname)
       puts to_s
     end

@@ -4,9 +4,16 @@ require_relative 'amnesie/process'
 require_relative 'amnesie/network'
 require_relative 'amnesie/mac'
 require_relative 'amnesie/host'
+require_relative 'amnesie/config'
 require_relative 'amnesie/helpers'
 
 module Amnesie
+
+  OPTIONS = {
+    mac: true,
+    hostname: false
+  }.freeze
+
   def self.random_mac(network)
     mac = Amnesie::MAC.new(network)
     mac.set_addr

@@ -5,6 +5,9 @@ module Amnesie
     attr_reader :init, :mac, :net_dev, :persist, :hostname
 
     def initialize(argv)
+      @default = Config.new.load
+      @mac = @default[:mac]
+      @hostname = @default[:hostname]
       parse(argv)
     end
 
@@ -13,7 +16,7 @@ module Amnesie
     def parse(argv)
       OptionParser.new do |opts|
 
-        opts.on("-i", "--init", "Used with init process (systemd, etc...)") do
+        opts.on("-i", "--init", "When used with a init process (systemd, etc...)") do
           @init = true
         end
 
@@ -39,7 +42,6 @@ module Amnesie
         end
 
         begin
-          argv = ["-h"] if argv.empty?
           opts.parse!(argv)
         rescue OptionParser::ParseError => e
           STDERR.puts e.message, "\n", opts
