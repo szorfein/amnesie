@@ -2,43 +2,39 @@ require 'interfacez'
 
 module Amnesie
   class Network
-    attr_accessor :card
-
-    def initialize(name = false)
+    def initialize(card_match, name = nil)
+      @card_match = card_match
       @name = name
+      @devs = []
       @check = false
     end
 
-    def card
-      verify_card
-      if @check == false then
-        ask_for_card
+    def search
+      if @name
+        verify_card
+        @devs << @name
+      else
+        search_cards
+        @devs
       end
-      @name
     end
 
     private
 
     def verify_card
-      return if @check or not @name
       Interfacez.all do |interface|
         if interface == @name then
           @check = true
         end
       end
-      if not @check then
-        puts "Your interface #{@name} is no found"
+      if !@check then
+        raise ArgumentError, "Interface no found" if !@check
       end
     end
 
-    def ask_for_card
-      until @check == true
-        Interfacez.all do |interface|
-          print interface + " "
-        end
-        printf "\nWhat is the name of the card to be used? "
-        @name = gets.chomp
-        verify_card
+    def search_cards
+      Interfacez.all do |interface|
+        @devs << interface if interface.match(@card_match)
       end
     end
   end

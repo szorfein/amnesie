@@ -1,5 +1,7 @@
 * Support for iwd
 * Support for wpa_supplicant
+* Config file (per user in ~/.config/amnesie/ or system wide /etc/amnesie/)
+* Can generate a random hostname between 8-25 characters
 
 ## 0.0.8, release 2020-09-22
 * Enhance code

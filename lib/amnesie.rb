@@ -11,7 +11,8 @@ module Amnesie
 
   OPTIONS = {
     mac: true,
-    hostname: false
+    hostname: false,
+    card_match: /^en/
   }.freeze
 
   def self.random_mac(network)
@@ -65,19 +66,25 @@ module Amnesie
 
     def run
       options = Options.new(@argv)
-      network = options.net_dev ? Network.new(options.net_dev) : Network.new()
+      networks = Network.new(options.card_match, options.net_dev).search
+      puts "cards #{networks}"
 
       if options.init
-        Amnesie.random_mac(network.card)
-        exit
+        networks.each { |net|
+          Amnesie.random_mac(net)
+        }
       end
 
       if options.persist
-        Amnesie.services(network.card)
+        networks.each { |net|
+          Amnesie.services(net)
+        }
       end
 
       if options.mac
-        Amnesie.random_mac_and_kill(network.card)
+        networks.each { |net|
+          Amnesie.random_mac_and_kill(net)
+        }
       end
 
       if options.hostname

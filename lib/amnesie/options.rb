@@ -2,12 +2,13 @@ require 'optparse'
 
 module Amnesie
   class Options
-    attr_reader :init, :mac, :net_dev, :persist, :hostname
+    attr_reader :init, :mac, :net_dev, :persist, :hostname, :card_match
 
     def initialize(argv)
       @default = Config.new.load
       @mac = @default[:mac]
       @hostname = @default[:hostname]
+      @card_match = @default[:card_match]
       parse(argv)
     end
 
@@ -24,7 +25,7 @@ module Amnesie
           @mac = true
         end
 
-        opts.on("-n", "--net-card NAME", "The name of the card to use") do |net|
+        opts.on("-n", "--net-card NAME", "Card to use, default use card_match from the config file.") do |net|
           @net_dev = net
         end
 
