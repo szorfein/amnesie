@@ -1,3 +1,4 @@
+## 0.0.9, release 2020-11-06
 * Support for iwd
 * Support for wpa_supplicant
 * Config file (per user in ~/.config/amnesie/ or system wide /etc/amnesie/)

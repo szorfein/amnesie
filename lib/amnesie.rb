@@ -41,7 +41,6 @@ module Amnesie
         puts "service exist"
         persist.update_mac
       end
-      puts "menu_mac"
       persist.menu_mac
     end
   end

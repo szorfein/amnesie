@@ -18,8 +18,8 @@ module Amnesie
     private
 
     def find_conf
-      if ! ENV["HOME"] || ENV["HOME"] == '/root'
-        "/etc/amnesie/amnesie.yaml"
+      if !ENV["HOME"] || ENV["HOME"] == '/root'
+        "/etc/conf.d/amnesie.yaml"
       else
         "#{ENV['HOME']}/.config/amnesie/amnesie.yaml"
       end
